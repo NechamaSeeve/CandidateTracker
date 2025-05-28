@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useCandidateCounts } from '../GetCount'
 
 const Layout = ({ children }) => {
+    const { pendingCount, confirmedCount, deniedCount } = useCandidateCounts();
     return (
         <div>
             <header>
@@ -16,8 +18,10 @@ const Layout = ({ children }) => {
                         <div className="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul className="navbar-nav flex-grow-1">
                                 <li className="nav-item"><Link to="/" className='nav-link text-light'>Home</Link></li>
-                                <li className="nav-item"><Link to="/AddCandidate" className='nav-link text-light'>Add Candidate</Link></li>
-                                <li className="nav-item"><Link to="/PendingTable" className='nav-link text-light'>Pending</Link></li>
+                                <li className="nav-item"><Link to="/AddCandidate" className='nav-link text-light'>Add Candidate </Link></li>
+                                <li className="nav-item"><Link to="/PendingTable" className='nav-link text-light'>Pending ({pendingCount})</Link></li>
+                                <li className="nav-item"><Link to="/ConfirmTable" className='nav-link text-light'>Confirmed ({confirmedCount})</Link></li>
+                                <li className="nav-item"><Link to="/DeniedTable" className='nav-link text-light'>Denied ({deniedCount})</Link></li>
                             </ul>
                         </div>
                     </div>

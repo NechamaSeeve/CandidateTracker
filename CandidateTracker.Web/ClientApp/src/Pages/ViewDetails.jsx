@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useParams,useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { useCandidateCounts } from '../GetCount'
+
 
 const ViewDetails = () => {
     const { id } = useParams();
     const [candidate, setCandidate] = useState();
     
     const navigate = useNavigate();
+    const { getDeniedCount, getConfirmedCount,getPendingCount} = useCandidateCounts();
 
 
     const getCandidate = async () => {
@@ -26,18 +29,20 @@ const ViewDetails = () => {
     }
     
     const onDenied = async () => {
-        
-        await axios.post('/api/candidateTracker/updatedeniedStatus', {
-            candidate
-        });
+
+        await axios.post('/api/candidateTracker/updatedeniedStatus', candidate);
+        getDeniedCount()
+        getPendingCount();
         navigate('/PendingTable')
-        console.log(candidate.id)
+        
+  
     }
     const onConfirmed = async () => {
-        await axios.post('/api/candidateTracker/updateConfirmedStatus', {
-            candidate
-        });
+        await axios.post('/api/candidateTracker/updateConfirmedStatus', candidate);
+        getConfirmedCount();
+        getPendingCount();
         navigate('/PendingTable')
+        
     }
 
     return (

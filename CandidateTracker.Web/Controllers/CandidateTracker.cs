@@ -41,15 +41,58 @@ namespace CandidateTracker.Web.Controllers
         {
             var repo = new CandidateRepository(_connectionString);
             candidate.Status = Status.Denied;
-            repo.UpdateStatus(candidate.Id,candidate.Status);
+            repo.Update(candidate);
         }
         [HttpPost("updateConfirmedStatus")]
         public void UpdateConfirmed(Candidate candidate)
         {
             var repo = new CandidateRepository(_connectionString);
             candidate.Status = Status.Confirmed;
-            repo.UpdateStatus(candidate.Id, candidate.Status);
+            repo.Update(candidate);
         }
+        [HttpGet("getConfirmed")]
+        public List<Candidate> GetConfirmed()
+        {
+            var repo = new CandidateRepository(_connectionString);
+            return repo.GetConfirmed().ToList();
+        }
+        [HttpGet("getDenied")]
+        public List<Candidate> GetDenied()
+        {
+            var repo = new CandidateRepository(_connectionString);
+            return repo.GetDenied().ToList();
+        }
+        [HttpGet("getPendingCount")]
+        public object GetPendingCount()
+        {
+            var repo = new CandidateRepository(_connectionString);
+
+            return new
+            {
+                count = repo.GetPendingCount()
+            };
+        }
+        [HttpGet("getConfirmedCount")]
+        public object GetConfirmedCount()
+        {
+            var repo = new CandidateRepository(_connectionString);
+
+            return new
+            {
+                count = repo.GetConfirmedCount()
+            };
+        }
+        [HttpGet("getDeniedCount")]
+        public object GetDeniedCount()
+        {
+            var repo = new CandidateRepository(_connectionString);
+
+            return new
+            {
+                count = repo.GetDeniedCount()
+            };
+        }
+
     }
 
 }

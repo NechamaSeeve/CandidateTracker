@@ -33,15 +33,38 @@ namespace CandidateTracker.Data
             using var ctx = new CandidateDataContext(_connectionString);
             return ctx.Candidates.FirstOrDefault(c => c.Id == id);
         }
-      
-            public void UpdateStatus(int candidateId, Status status)
-            {
-                using var context = new CandidateDataContext(_connectionString);
-                context.Database.ExecuteSqlInterpolated(
-                    $"UPDATE Candidates SET Status = {status} WHERE Id = {candidateId}");
-            }
-
-
-
+        public void Update(Candidate candidate)
+        {
+            using var context = new CandidateDataContext(_connectionString);
+            context.Entry(candidate).State = EntityState.Modified;
+            context.SaveChanges();
+           
+                
+        }
+        public List<Candidate> GetConfirmed()
+        {
+            using var ctx = new CandidateDataContext(_connectionString);
+            return ctx.Candidates.Where(c => c.Status == Status.Confirmed).ToList();
+        }
+        public List<Candidate> GetDenied()
+        {
+            using var ctx = new CandidateDataContext(_connectionString);
+            return ctx.Candidates.Where(c => c.Status == Status.Denied).ToList();
+        }
+        public int GetPendingCount()
+        {
+            using var ctx = new CandidateDataContext(_connectionString);
+            return ctx.Candidates.Where(c => c.Status == Status.Pending).ToList().Count();
+        }
+        public int GetConfirmedCount()
+        {
+            using var ctx = new CandidateDataContext(_connectionString);
+            return ctx.Candidates.Where(c => c.Status == Status.Confirmed).ToList().Count();
+        }
+        public int GetDeniedCount()
+        {
+            using var ctx = new CandidateDataContext(_connectionString);
+            return ctx.Candidates.Where(c => c.Status == Status.Denied).ToList().Count();
+        }
     }
 }

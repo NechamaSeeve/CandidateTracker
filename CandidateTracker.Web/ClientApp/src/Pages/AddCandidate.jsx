@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
+import { useCandidateCounts } from '../GetCount'
+
 
 const AddCandidate = () => {
     const navigate = useNavigate();
@@ -9,6 +11,8 @@ const AddCandidate = () => {
     const [email, setEmail] = useState()
     const [phone, setPhoneNumber] = useState()
     const [notes, setNotes] = useState()
+    const { getPendingCount } = useCandidateCounts();
+    
 
      
    
@@ -21,7 +25,10 @@ const AddCandidate = () => {
                 phone,
                 notes
             });
+        getPendingCount();
         navigate('/')
+       
+     
         }
 
 
