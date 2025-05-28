@@ -40,16 +40,16 @@ namespace CandidateTracker.Web.Controllers
         public void UpdateDeniedStatus(Candidate candidate)
         {
             var repo = new CandidateRepository(_connectionString);
-            //candidate.Status = Status.Denied;
-            repo.Update(candidate);
+            candidate.Status = Status.Denied;
+            repo.UpdateStatus(candidate.Id,candidate.Status);
         }
-        //[HttpPost("updateConfirmedStatus")]
-        //public void UpdateConfirmed(Candidate candidate)
-        //{
-        //    var repo = new CandidateRepository(_connectionString);
-        //    //candidate.Status = Status.Confirmed;
-        //    repo.Update(candidate);
-        //}
+        [HttpPost("updateConfirmedStatus")]
+        public void UpdateConfirmed(Candidate candidate)
+        {
+            var repo = new CandidateRepository(_connectionString);
+            candidate.Status = Status.Confirmed;
+            repo.UpdateStatus(candidate.Id, candidate.Status);
+        }
     }
 
 }

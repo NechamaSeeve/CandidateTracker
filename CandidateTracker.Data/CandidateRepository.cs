@@ -33,13 +33,15 @@ namespace CandidateTracker.Data
             using var ctx = new CandidateDataContext(_connectionString);
             return ctx.Candidates.FirstOrDefault(c => c.Id == id);
         }
-        public void Update(Candidate candidate)
-        {
-            using var context = new CandidateDataContext(_connectionString);
-            context.Entry(candidate).State = EntityState.Modified;
-            context.SaveChanges();
-           
-                
-        }
+      
+            public void UpdateStatus(int candidateId, Status status)
+            {
+                using var context = new CandidateDataContext(_connectionString);
+                context.Database.ExecuteSqlInterpolated(
+                    $"UPDATE Candidates SET Status = {status} WHERE Id = {candidateId}");
+            }
+
+
+
     }
 }
